@@ -3,6 +3,7 @@ package modelo.dao;
 import Conexion.Conexion;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoDatabase;
+import com.mongodb.client.model.Filters;
 import com.mongodb.client.model.Updates;
 import modelo.dto.Account;
 import org.bson.Document;
@@ -70,7 +71,7 @@ public class AccountDAOSQL implements AccountDAO{
 
     @Override
     public void actualizarCuentaPorID(Account cuentaConID) {
-        collection.updateOne(eq("_id", cuentaConID.getId()),Updates.combine(
+        collection.updateOne(Filters.eq("_id", cuentaConID.getId()),Updates.combine(
                 Updates.set("iban",cuentaConID.getIban()),
                 Updates.set("creditCard",cuentaConID.getCreditCar()),
                 Updates.set("balance",cuentaConID.getBalance()),
@@ -82,5 +83,4 @@ public class AccountDAOSQL implements AccountDAO{
         AccountDAO accountDAO = new AccountDAOSQL();
         System.out.println(accountDAO.obtenerTodasCuentas());
     }
-
 }

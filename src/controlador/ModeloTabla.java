@@ -21,8 +21,30 @@ public class ModeloTabla extends AbstractTableModel {
         this.listarCuenta = dao.obtenerTodasCuentas();
     }
 
+    @Override
+    public void setValueAt(Object aValue, int rowIndex, int columnIndex) {
+        Account account = listarCuenta.get(rowIndex);
+        switch (columnIndex) {
+            case 1:
+                account.setIban((String) aValue);
+                break;
+            case 2:
+                account.setCreditCar((String) aValue);
+                break;
+            case 3:
+                account.setBalance(Double.parseDouble((String) aValue));
+                break;
+            case 4:
+                account.setFullName((String) aValue);
+                break;
+        }
+        dao.actualizarCuentaPorID(account);
+    }
 
-
+    @Override
+    public boolean isCellEditable(int rowIndex, int columnIndex) {
+        return columnIndex==1 || columnIndex==2 || columnIndex==3 || columnIndex==4;
+    }
 
     @Override
     public int getRowCount() { return listarCuenta.size(); }
